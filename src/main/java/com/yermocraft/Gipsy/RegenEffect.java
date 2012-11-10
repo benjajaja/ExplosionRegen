@@ -11,7 +11,7 @@ public class RegenEffect implements Runnable {
 
 	public RegenEffect(World world, Location location) {
 		this.world = world;
-		this.location = location;
+		this.location = location.add(0, 2, 0);
 	}
 
 	@Override

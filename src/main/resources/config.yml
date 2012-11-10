@@ -1,3 +1,4 @@
 worlds:
   - world
 ignore-containers: true
+regeneration-minutes: 60

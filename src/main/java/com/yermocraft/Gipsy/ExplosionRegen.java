@@ -1,28 +1,31 @@
 package com.yermocraft.Gipsy;
 
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ExplosionRegen extends JavaPlugin {
 
+	private TaskList taskList;
+
+	@Override
 	public void onEnable() {
     	saveDefaultConfig();
     	
     	FileConfiguration config = getConfig();
     	
+    	this.taskList = new TaskList(this);
+    	
     	getServer().getPluginManager().registerEvents(
-        		new ExplosionListener(this, new FactionHandler(getServer().getPluginManager().getPlugin("Factions")), config), this);
+        		new ExplosionListener(taskList, new FactionHandler(getServer().getPluginManager().getPlugin("Factions")), config), this);
+    	
+    	getCommand("er").setExecutor(new ErCommandExecutor(taskList));
 	}
 	
+	@Override
 	public void onDisable() {
-    	getServer().getScheduler().cancelTasks(this);
-
-    	getLogger().info(getName() + " ended remaining tasks");
-    }
-
-	public void debug(String string) {
-		getServer().getWorlds().get(0).getPlayers().get(0).sendMessage(string);
+		getLogger().info("Regenerated " + taskList.runAllPending() + " explosions");
 		
-	}
+    }
 
 }

@@ -11,18 +11,29 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingBreakEvent.RemoveCause;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class ExplosionListener implements Listener {
 
 	private FactionHandler factionHandler;
-	private FileConfiguration config;
-	private ExplosionRegen plugin;
+	private TaskList taskList;
+	private boolean ignoreContainers;
+	private int regenerationMinutes;
+	private List<String> worldNames;
 
-	public ExplosionListener(ExplosionRegen plugin, FactionHandler factionHandler,
+	public ExplosionListener(TaskList taskList, FactionHandler factionHandler,
 			FileConfiguration config) {
-		this.plugin = plugin;
+		this.taskList = taskList;
 		this.factionHandler = factionHandler;
-		this.config = config;
+		
+		this.ignoreContainers = config.getBoolean("ignore-containers");
+		this.regenerationMinutes = config.getInt("regeneration-minutes");
+		this.worldNames = config.getStringList("worlds");
+	}
+	
+	@EventHandler(priority = EventPriority.LOW)
+	public void onCommand(PlayerCommandPreprocessEvent event) {
+		
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
@@ -32,7 +43,8 @@ public class ExplosionListener implements Listener {
 		}
 		
 		event.setYield(0);
-		new ExplosionRecord(plugin, config.getBoolean("ignore-containers"), event.blockList(), 60);
+		
+		new BlockRecord(taskList, ignoreContainers, event.blockList(), regenerationMinutes);
 	}
 	
 	@EventHandler(priority = EventPriority.LOW)
@@ -44,11 +56,11 @@ public class ExplosionListener implements Listener {
 		}
 		
 		event.setCancelled(true);
-		new HangingRecord(plugin, event.getEntity(), 60 + 40);
+		new HangingRecord(taskList, event.getEntity(), regenerationMinutes);
 	}
 
 	private boolean shouldHandle(Location location, List<Block> list) {
-		if (!config.getStringList("worlds").contains(location.getWorld().getName())) {
+		if (!worldNames.contains(location.getWorld().getName())) {
 			return false;
 		}
 		
