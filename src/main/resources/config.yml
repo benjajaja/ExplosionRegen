@@ -1,4 +1,7 @@
+# enable only for the following worlds
 worlds:
   - world
+# do not regenerate containers (chests, dispensers, furnaces...)
 ignore-containers: true
+# regeneration delay
 regeneration-minutes: 60

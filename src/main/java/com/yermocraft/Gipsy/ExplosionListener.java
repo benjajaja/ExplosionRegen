@@ -20,15 +20,17 @@ public class ExplosionListener implements Listener {
 	private boolean ignoreContainers;
 	private int regenerationMinutes;
 	private List<String> worldNames;
+	private boolean dropSkulls;
 
 	public ExplosionListener(TaskList taskList, FactionHandler factionHandler,
-			FileConfiguration config) {
+			FileConfiguration config, boolean dropSkulls) {
 		this.taskList = taskList;
 		this.factionHandler = factionHandler;
 		
 		this.ignoreContainers = config.getBoolean("ignore-containers");
 		this.regenerationMinutes = config.getInt("regeneration-minutes");
 		this.worldNames = config.getStringList("worlds");
+		this.dropSkulls = dropSkulls;
 	}
 	
 	@EventHandler(priority = EventPriority.LOW)
@@ -44,7 +46,7 @@ public class ExplosionListener implements Listener {
 		
 		event.setYield(0);
 		
-		new BlockRecord(taskList, ignoreContainers, event.blockList(), regenerationMinutes);
+		new BlockRecord(taskList, ignoreContainers, event.blockList(), regenerationMinutes, dropSkulls);
 	}
 	
 	@EventHandler(priority = EventPriority.LOW)
