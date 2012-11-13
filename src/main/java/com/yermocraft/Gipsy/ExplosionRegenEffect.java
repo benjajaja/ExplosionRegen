@@ -4,12 +4,12 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-public class RegenEffect implements Runnable {
+public class ExplosionRegenEffect implements Runnable {
 
 	private World world;
 	private Location location;
 
-	public RegenEffect(World world, Location location) {
+	public ExplosionRegenEffect(World world, Location location) {
 		this.world = world;
 		this.location = location.add(0, 2, 0);
 	}

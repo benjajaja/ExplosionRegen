@@ -56,7 +56,7 @@ public class TaskList {
 		delayedList.remove(runnable);
 	}
 
-	public void run(RegenEffect runnable, int ticks) {
+	public void run(Runnable runnable, int ticks) {
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, runnable, ticks);
 		
 	}

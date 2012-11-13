@@ -9,9 +9,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingBreakEvent.RemoveCause;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class ExplosionListener implements Listener {
 
@@ -21,6 +21,9 @@ public class ExplosionListener implements Listener {
 	private int regenerationMinutes;
 	private List<String> worldNames;
 	private boolean dropSkulls;
+	private boolean breakObsidian;
+	private boolean clearLiquids;
+	private List<Integer> dropList;
 
 	public ExplosionListener(TaskList taskList, FactionHandler factionHandler,
 			FileConfiguration config, boolean dropSkulls) {
@@ -31,13 +34,20 @@ public class ExplosionListener implements Listener {
 		this.regenerationMinutes = config.getInt("regeneration-minutes");
 		this.worldNames = config.getStringList("worlds");
 		this.dropSkulls = dropSkulls;
-	}
-	
-	@EventHandler(priority = EventPriority.LOW)
-	public void onCommand(PlayerCommandPreprocessEvent event) {
-		
+		this.breakObsidian = config.getBoolean("break-obsidian");
+		this.clearLiquids = config.getBoolean("clear-liquids");
+		this.dropList = config.getIntegerList("drops");
 	}
 
+	@EventHandler(priority = EventPriority.LOW)
+	public void onExplosionPrime(ExplosionPrimeEvent event) {
+		if(!clearLiquids || event.isCancelled() || !shouldHandle(event.getEntity().getLocation(), null)) {
+			return;
+		}
+		
+		new LiquidClearance(taskList, event.getEntity().getLocation());
+	}
+	
 	@EventHandler(priority = EventPriority.LOW)
 	public void onEntityExplode(EntityExplodeEvent event) {
 		if(event.isCancelled() || !shouldHandle(event.getLocation(), event.blockList())) {
@@ -46,7 +56,7 @@ public class ExplosionListener implements Listener {
 		
 		event.setYield(0);
 		
-		new BlockRecord(taskList, ignoreContainers, event.blockList(), regenerationMinutes, dropSkulls);
+		new BlockRecord(taskList, ignoreContainers, event.blockList(), event.getLocation(), regenerationMinutes, dropSkulls, breakObsidian, dropList);
 	}
 	
 	@EventHandler(priority = EventPriority.LOW)
