@@ -25,7 +25,7 @@ public class ExplosionRegen extends JavaPlugin {
     	}
     	
     	getServer().getPluginManager().registerEvents(
-        		new ExplosionListener(taskList, new FactionHandler(getServer().getPluginManager().getPlugin("Factions")), config, dropSkulls), this);
+        		new ExplosionListener(taskList, new FactionHandler(getServer().getPluginManager().getPlugin("Factions"), config.getBoolean("ignore-wilderness")), config, dropSkulls), this);
     	
     	getCommand("er").setExecutor(new ErCommandExecutor(taskList));
 	}

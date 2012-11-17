@@ -30,7 +30,7 @@ public class LiquidClearance implements Runnable {
 			}
 		}
 		
-		taskList.run(this, 1);
+		taskList.runUnrecoverable(this, 1);
 	}
 
 	@Override

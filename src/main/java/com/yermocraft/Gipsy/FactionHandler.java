@@ -14,8 +14,8 @@ public class FactionHandler {
 
 	private boolean isFactionsEnabled = false;
 	
-	public FactionHandler(Plugin plugin) {
-		isFactionsEnabled = plugin != null && plugin instanceof P;
+	public FactionHandler(Plugin plugin, boolean ignoreWilderness) {
+		isFactionsEnabled = plugin != null && plugin instanceof P && !ignoreWilderness;
 	}
 
 	public boolean shouldIgnore(List<Block> list, Location location) {

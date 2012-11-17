@@ -40,12 +40,12 @@ public class TaskList {
 		return size;
 	}
 
-	public void add(ErRunnable runnable, int minutes) {
-		list.add(runnable.setId(plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, runnable, minutes)));
+	public void add(ErRunnable runnable, int ticks) {
+		list.add(runnable.setId(plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, runnable, ticks)));
 	}
 	
-	public void add(HangingRecord runnable, int minutes) {
-		delayedList.add(runnable.setId(plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, runnable, minutes)));
+	public void add(HangingRecord runnable, int ticks) {
+		delayedList.add(runnable.setId(plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, runnable, ticks)));
 	}
 
 	public void remove(ErRunnable runnable) {
@@ -56,7 +56,7 @@ public class TaskList {
 		delayedList.remove(runnable);
 	}
 
-	public void run(Runnable runnable, int ticks) {
+	public void runUnrecoverable(Runnable runnable, int ticks) {
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, runnable, ticks);
 		
 	}

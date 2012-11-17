@@ -1,7 +1,6 @@
 package com.yermocraft.Gipsy;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -63,7 +62,7 @@ public class BlockRecord extends ErRunnable {
 			
 			if (list.size() > 0) {
 				taskList.add(this, minutes * 1200 + 20);
-				taskList.run(new ExplosionRegenEffect(list.get(0).getWorld(), list.get(0).getLocation()), minutes * 1200);
+				taskList.runUnrecoverable(new ExplosionRegenEffect(list.get(0).getWorld(), list.get(0).getLocation()), minutes * 1200);
 			}
 		}
 	}
@@ -117,11 +116,9 @@ public class BlockRecord extends ErRunnable {
 	}
 
 	private void drop(Block block) {
-		Collection<ItemStack> drops = block.getDrops();
-		if (drops.size() > 0) {
-			block.getWorld().dropItemNaturally(block.getLocation(), drops.iterator().next());
+		for(ItemStack drop: block.getDrops()) {
+			block.getWorld().dropItemNaturally(block.getLocation(), drop);
 		}
-		
 	}
 
 	
