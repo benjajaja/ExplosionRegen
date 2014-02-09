@@ -1,4 +1,4 @@
-package com.yermocraft.Gipsy;
+package gipsyking.explosionregen;
 
 import java.util.ArrayList;
 
@@ -41,20 +41,21 @@ public class TaskList {
 	}
 
 	public void add(ErRunnable runnable, int ticks) {
-		list.add(runnable.setId(plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, runnable, ticks)));
+		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, runnable, ticks);
+		list.add(runnable);
 	}
 	
-	public void add(HangingRecord runnable, int ticks) {
+	/*public void add(HangingRecord runnable, int ticks) {
 		delayedList.add(runnable.setId(plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, runnable, ticks)));
-	}
+	}*/
 
 	public void remove(ErRunnable runnable) {
 		list.remove(runnable);
 	}
 	
-	public void remove(HangingRecord runnable) {
+	/*public void remove(HangingRecord runnable) {
 		delayedList.remove(runnable);
-	}
+	}*/
 
 	public void runUnrecoverable(Runnable runnable, int ticks) {
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, runnable, ticks);

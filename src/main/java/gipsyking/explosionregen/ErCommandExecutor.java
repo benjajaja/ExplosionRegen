@@ -1,4 +1,4 @@
-package com.yermocraft.Gipsy;
+package gipsyking.explosionregen;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,10 +16,10 @@ public class ErCommandExecutor implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String comandName,
 			String[] args) {
 		if (sender.isOp()) {
-			if (args.length == 1 && args[0].equals("regen")) {
+			//if (args.length == 1 && args[0].equals("regen")) {
 				sender.sendMessage("Regenerated " + taskList.runAllPending() + " explosions");
 				return true;
-			}
+			//}
 		}
 		return false;
 	}

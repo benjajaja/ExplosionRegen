@@ -1,4 +1,4 @@
-package com.yermocraft.Gipsy;
+package gipsyking.explosionregen;
 
 import org.bukkit.Effect;
 import org.bukkit.Location;

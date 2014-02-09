@@ -3,7 +3,7 @@ worlds:
   - world
 
 # do not regenerate explosions not damaging faction territory
-ignore-wilderness: false
+ignore-wilderness: true
   
 # do not regenerate containers (chests, dispensers, furnaces...)
 ignore-containers: true

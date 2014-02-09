@@ -1,15 +1,15 @@
 name: ExplosionRegen
-main: com.yermocraft.Gipsy.ExplosionRegen
+main: gipsyking.explosionregen.ExplosionRegen
 version: 0.2
+depend: [Factions]
 commands:
   explosionregen:
     description: Regenerate explosions
-    aliases: [er]
     permission: explosionregen.command
     usage: /<command> [regen]
 permissions:
   explosionregen.*:
-    description: Everything explosion regeneration related
+    description: Everything explosion regeneration related. For admins only.
     children:
       explosionregen.command: true
   explosionregen.command:

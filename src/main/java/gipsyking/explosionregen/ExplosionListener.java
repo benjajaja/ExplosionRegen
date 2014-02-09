@@ -1,4 +1,4 @@
-package com.yermocraft.Gipsy;
+package gipsyking.explosionregen;
 
 import java.util.List;
 
@@ -20,20 +20,18 @@ public class ExplosionListener implements Listener {
 	private boolean ignoreContainers;
 	private int regenerationMinutes;
 	private List<String> worldNames;
-	private boolean dropSkulls;
 	private boolean breakObsidian;
 	private boolean clearLiquids;
 	private List<Integer> dropList;
 
 	public ExplosionListener(TaskList taskList, FactionHandler factionHandler,
-			FileConfiguration config, boolean dropSkulls) {
+			FileConfiguration config) {
 		this.taskList = taskList;
 		this.factionHandler = factionHandler;
 		
 		this.ignoreContainers = config.getBoolean("ignore-containers");
 		this.regenerationMinutes = config.getInt("regeneration-minutes");
 		this.worldNames = config.getStringList("worlds");
-		this.dropSkulls = dropSkulls;
 		this.breakObsidian = config.getBoolean("break-obsidian");
 		this.clearLiquids = config.getBoolean("clear-liquids");
 		this.dropList = config.getIntegerList("drops");
@@ -54,9 +52,11 @@ public class ExplosionListener implements Listener {
 			return;
 		}
 		
+		ExplosionRegen.debug("explosion");
+		
 		event.setYield(0);
 		
-		new BlockRecord(taskList, ignoreContainers, event.blockList(), event.getLocation(), regenerationMinutes, dropSkulls, breakObsidian, dropList);
+		new ExplosionRecord(taskList, ignoreContainers, event.blockList(), event.getLocation(), regenerationMinutes, breakObsidian, dropList);
 	}
 	
 	@EventHandler(priority = EventPriority.LOW)
@@ -67,9 +67,11 @@ public class ExplosionListener implements Listener {
 			return;
 		}
 		
+		ExplosionRegen.debug("painting");
 		event.setCancelled(true);
-		new HangingRecord(taskList, event.getEntity(), regenerationMinutes);
+		//new HangingRecord(taskList, event.getEntity(), regenerationMinutes);
 	}
+
 
 	private boolean shouldHandle(Location location, List<Block> list) {
 		if (!worldNames.contains(location.getWorld().getName())) {

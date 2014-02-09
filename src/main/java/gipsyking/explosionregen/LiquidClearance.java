@@ -1,4 +1,4 @@
-package com.yermocraft.Gipsy;
+package gipsyking.explosionregen;
 
 import java.util.ArrayList;
 
