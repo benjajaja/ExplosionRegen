@@ -50,7 +50,6 @@ public class BlockRecord {
 
 	protected void setData(BlockState currentState) {
 		if (BlockStateHandlerConfiguration.recordHandlers.containsKey(state.getType())) {
-			ExplosionRegen.debug("using custom handler: " + state.getType());
 			BlockStateHandlerConfiguration.recordHandlers.get(state.getType()).setData(currentState, state);
 			
 		} else {

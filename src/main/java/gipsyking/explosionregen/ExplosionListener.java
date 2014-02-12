@@ -10,8 +10,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
-import org.bukkit.event.hanging.HangingBreakEvent;
-import org.bukkit.event.hanging.HangingBreakEvent.RemoveCause;
 
 public class ExplosionListener implements Listener {
 
@@ -52,24 +50,9 @@ public class ExplosionListener implements Listener {
 			return;
 		}
 		
-		ExplosionRegen.debug("explosion");
-		
 		event.setYield(0);
 		
 		new ExplosionRecord(taskList, ignoreContainers, event.blockList(), event.getLocation(), regenerationMinutes, breakObsidian, dropList);
-	}
-	
-	@EventHandler(priority = EventPriority.LOW)
-	public void onPainting(HangingBreakEvent event) {
-		if (event.isCancelled()
-				|| event.getCause() != RemoveCause.EXPLOSION
-				|| !shouldHandle(event.getEntity().getLocation(), null)) {
-			return;
-		}
-		
-		ExplosionRegen.debug("painting");
-		event.setCancelled(true);
-		//new HangingRecord(taskList, event.getEntity(), regenerationMinutes);
 	}
 
 

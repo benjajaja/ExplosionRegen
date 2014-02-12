@@ -1,7 +1,6 @@
 package gipsyking.explosionregen;
 
 
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,15 +37,12 @@ public class ExplosionRegen extends JavaPlugin {
 		
     }
 
-	public static void debug(World world, String string) {
+	@Deprecated
+	public static void debug(String string) {
 		_singleton_for_debug_only.getLogger().info(string);
-		for (Player player: world.getPlayers()) {
+		for (Player player: _singleton_for_debug_only.getServer().getWorld("world").getPlayers()) {
 			player.sendMessage(string);
 		}
-	}
-	
-	public static void debug(String string) {
-		debug(_singleton_for_debug_only.getServer().getWorld("world"), string);
 	}
 
 	
