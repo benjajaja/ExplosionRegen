@@ -35,7 +35,7 @@ public class ExplosionListener implements Listener {
 		this.dropList = config.getIntegerList("drops");
 	}
 
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onExplosionPrime(ExplosionPrimeEvent event) {
 		if(!clearLiquids || event.isCancelled() || !shouldHandle(event.getEntity().getLocation(), null)) {
 			return;
@@ -44,13 +44,13 @@ public class ExplosionListener implements Listener {
 		new LiquidClearance(taskList, event.getEntity().getLocation());
 	}
 	
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityExplode(EntityExplodeEvent event) {
 		if(event.isCancelled() || !shouldHandle(event.getLocation(), event.blockList())) {
 			return;
 		}
 		
-		event.setYield(0);
+		event.setCancelled(true);
 		
 		new ExplosionRecord(taskList, ignoreContainers, event.blockList(), event.getLocation(), regenerationMinutes, breakObsidian, dropList);
 	}

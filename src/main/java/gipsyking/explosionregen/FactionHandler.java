@@ -23,10 +23,11 @@ public class FactionHandler {
 		}
 		
 		BoardColls board = BoardColls.get();
-				
+		
 		if (list != null) {
 			for(Block block : list) {
 				if(!board.getFactionAt(PS.valueOf(block.getLocation())).isNone()) {
+					
 					return false;
 				}
 			}

@@ -1,16 +1,9 @@
 name: ExplosionRegen
 main: gipsyking.explosionregen.ExplosionRegen
 version: 0.2
-depend: [Factions]
 commands:
   explosionregen:
-    description: Regenerate explosions
+    description: Regenerate explosions now or get info
     permission: explosionregen.command
-    usage: /<command> [regen]
-permissions:
-  explosionregen.*:
-    description: Everything explosion regeneration related. For admins only.
-    children:
-      explosionregen.command: true
-  explosionregen.command:
-    description: explosionregeb command
+    usage: /<command> [info]
+

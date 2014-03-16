@@ -13,7 +13,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class TaskList {
 
 	private ArrayList<ErRunnable> list = new ArrayList<ErRunnable>();
-	private ArrayList<ErRunnable> delayedList = new ArrayList<ErRunnable>(); // hanging etc
 	
 	private JavaPlugin plugin;
 	
@@ -32,11 +31,7 @@ public class TaskList {
 			runnable.runWithoutSchedule();
 		}
 		list.clear();
-		size += delayedList.size();
-		for(ErRunnable runnable: delayedList) {
-			runnable.runWithoutSchedule();
-		}
-		list.clear();
+		
 		return size;
 	}
 
@@ -60,6 +55,10 @@ public class TaskList {
 	public void runUnrecoverable(Runnable runnable, int ticks) {
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, runnable, ticks);
 		
+	}
+
+	public int getPendingCount() {
+		return list.size();
 	}
 
 }

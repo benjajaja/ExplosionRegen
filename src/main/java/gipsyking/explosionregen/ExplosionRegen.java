@@ -37,7 +37,6 @@ public class ExplosionRegen extends JavaPlugin {
 		
     }
 
-	@Deprecated
 	public static void debug(String string) {
 		_singleton_for_debug_only.getLogger().info(string);
 		for (Player player: _singleton_for_debug_only.getServer().getWorld("world").getPlayers()) {

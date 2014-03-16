@@ -1,6 +1,8 @@
 package gipsyking.explosionregen;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,6 +15,22 @@ import org.bukkit.util.Vector;
 public class ExplosionRecord extends ErRunnable {
 
 	private static int OBISIDIAN_CUBE_RADIUS = 1;
+	private static Comparator<BlockRecord> heightSorterLowFirst = new Comparator<BlockRecord>() {
+
+		@Override
+		public int compare(BlockRecord o1, BlockRecord o2) {
+			return o1.getY() - o2.getY();
+		}
+	};
+	
+	private static Comparator<BlockRecord> heightSorterHighFirst = new Comparator<BlockRecord>() {
+
+		@Override
+		public int compare(BlockRecord o1, BlockRecord o2) {
+			return o2.getY() - o1.getY();
+		}
+	};
+	
 	private ArrayList<BlockRecord> recordList;
 	private TaskList taskList;
 	
@@ -40,8 +58,15 @@ public class ExplosionRecord extends ErRunnable {
 					drop(block);
 					
 				} else {
-					record(block);
+					recordList.add(new BlockRecord(block));
 				}
+			}
+			
+			Collections.sort(recordList, ExplosionRecord.heightSorterHighFirst);
+			
+			for (BlockRecord block: recordList) {
+				// try to never drop accidentally
+				block.getBlockAt().setType(Material.AIR);
 			}
 			
 			if (recordList.size() > 0) {
@@ -68,15 +93,6 @@ public class ExplosionRecord extends ErRunnable {
 		world.getHandle().addEntity(entity);
 	}*/
 
-	/**
-	 * Items not correctly recorded:
-	 * skulls (direction), paintings
-	 * @param block
-	 */
-	private void record(Block block) {
-		
-		recordList.add(new BlockRecord(block));
-	}
 
 	@Override
 	public void run() {
@@ -86,12 +102,15 @@ public class ExplosionRecord extends ErRunnable {
 	
 	@Override
 	public void runWithoutSchedule() {
+		
+		Collections.sort(recordList, ExplosionRecord.heightSorterLowFirst);
+		
 		for(int i = recordList.size() - 1; i >= 0; i--) {
-			recordList.get(i).reset();
+			recordList.get(i).reset(false);
 		}
 		
 		for(int i = recordList.size() - 1; i >= 0; i--) {
-			recordList.get(i).update();
+			recordList.get(i).reset(true);
 		}
 	}
 
@@ -99,5 +118,7 @@ public class ExplosionRecord extends ErRunnable {
 		for(ItemStack drop: block.getDrops()) {
 			block.getWorld().dropItemNaturally(block.getLocation(), drop);
 		}
+		
+		block.setType(Material.AIR);
 	}
 }

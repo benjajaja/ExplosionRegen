@@ -16,10 +16,13 @@ public class ErCommandExecutor implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String comandName,
 			String[] args) {
 		if (sender.isOp()) {
-			//if (args.length == 1 && args[0].equals("regen")) {
+			if (args.length == 1 && args[0].equals("info")) {
+				sender.sendMessage(taskList.getPendingCount() + " pending regenerations");
+				
+			} else {
 				sender.sendMessage("Regenerated " + taskList.runAllPending() + " explosions");
 				return true;
-			//}
+			}
 		}
 		return false;
 	}
